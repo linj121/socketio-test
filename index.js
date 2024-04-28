@@ -35,7 +35,7 @@ io.on("connection", (socket) => {
       console.log("DB reset");
       db.length = 0;
     } else {
-      io.emit("chat message", data);
+      socket.broadcast.emit("chat message", data);
     }
   });
   socket.on("disconnect", () => {
