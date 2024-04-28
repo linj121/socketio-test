@@ -8,21 +8,19 @@ const io = new Server(server);
 
 const db = [];
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
+app.use(express.static("public"));
 
 io.on("connection", (socket) => {
   socket.on("new user", (user) => {
     if (user === "") {
       console.error("User name is empty");
-      io.emit("new user", { error: "name empty", name: user });
+      socket.emit("new user", { error: "name empty", name: user });
       return;
     }
 
     if (db.includes(user)) {
       console.error(`User ${user} already exists!`);
-      io.emit("new user", { error: "user taken", name: user });
+      socket.emit("new user", { error: "user taken", name: user });
       return;
     }
     db.push(user);
@@ -39,7 +37,7 @@ io.on("connection", (socket) => {
     }
   });
   socket.on("disconnect", () => {
-    io.emit("disconnect message", "Someone has left the chat");
+    io.emit("disconnect message", socket.id + " has left the chat");
   });
 });
 
