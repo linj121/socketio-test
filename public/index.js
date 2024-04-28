@@ -10,15 +10,14 @@ function appendMessage(msg) {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
-function promptForUserName() {
+let currentUserName = prompt("Enter your nick name");
+const promptWhileEmpty = () => {
   while (!currentUserName) {
     alert("Name is empty! Please enter your user name!");
     currentUserName = prompt("Enter your nick name");
   }
-}
+};
 
-let currentUserName = prompt("Enter your nick name");
-promptForUserName();
 socket.emit("new user", currentUserName);
 socket.on("new user", (data) => {
   console.log(`On new user: ${JSON.stringify(data)}`);
@@ -27,15 +26,16 @@ socket.on("new user", (data) => {
     switch (error) {
       case "name empty":
         alert("Got an empty user name!");
-        promptForUserName();
-        break;
+        promptWhileEmpty();
+        return;
       case "user taken":
         alert(currentUserName + " is already taken. Please try another name.");
-        promptForUserName();
-        break;
+        currentUserName = prompt("Enter your nick name");
+        socket.emit("new user", currentUserName);
+        return;
       default:
         console.error(`Unregistered error message: ${error}`);
-        break;
+        return;
     }
   }
   appendMessage(
