@@ -2,7 +2,8 @@ const socket = io();
 const messages = document.getElementById("messages");
 const form = document.getElementById("form");
 const input = document.getElementById("input");
-const typing = document.getElementById("typing");
+
+let onlineUsers = [];
 
 function appendMessage(msg) {
   const item = document.createElement("li");
@@ -46,6 +47,19 @@ socket.on("new user", (data) => {
   );
 });
 
+socket.on("online users", (data) => {
+  console.log(`On online users: ${JSON.stringify(data)}`);
+  onlineUsers = data;
+  const onlineUserElement = document.getElementById("online-users");
+  onlineUserElement.innerHTML = "";
+  onlineUsers.forEach((user) => {
+    const item = document.createElement("li");
+    item.textContent = user.userName;
+    onlineUserElement.appendChild(item);
+  });
+  console.log(`Online users: ${JSON.stringify(onlineUsers)}`);
+});
+
 form.addEventListener("input", function (e) {
   socket.emit("typing", currentUserName);
 });
@@ -65,9 +79,11 @@ form.addEventListener("submit", function (e) {
 
 socket.on("typing", function (userName) {
   console.log(`On typing: ${userName}`);
+  const typing = document.getElementById("typing");
   typing.textContent = `${userName} is typing...`;
   setTimeout(() => {
     typing.textContent = "";
+    typing = null;
   }, 1000);
 });
 

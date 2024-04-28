@@ -62,3 +62,15 @@ body {
 #messages > li:nth-child(odd) {
   background: #efefef;
 }
+
+#online-users {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  background-color: #333;
+  color: wheat;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
