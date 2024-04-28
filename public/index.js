@@ -2,6 +2,7 @@ const socket = io();
 const messages = document.getElementById("messages");
 const form = document.getElementById("form");
 const input = document.getElementById("input");
+const typing = document.getElementById("typing");
 
 function appendMessage(msg) {
   const item = document.createElement("li");
@@ -45,6 +46,10 @@ socket.on("new user", (data) => {
   );
 });
 
+form.addEventListener("input", function (e) {
+  socket.emit("typing", currentUserName);
+});
+
 form.addEventListener("submit", function (e) {
   e.preventDefault();
   const messageContent = input.value;
@@ -56,6 +61,14 @@ form.addEventListener("submit", function (e) {
     input.value = "";
     appendMessage("You: " + messageContent);
   }
+});
+
+socket.on("typing", function (userName) {
+  console.log(`On typing: ${userName}`);
+  typing.textContent = `${userName} is typing...`;
+  setTimeout(() => {
+    typing.textContent = "";
+  }, 1000);
 });
 
 socket.on("chat message", function (data) {

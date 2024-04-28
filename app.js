@@ -36,6 +36,10 @@ io.on("connection", (socket) => {
       socket.broadcast.emit("chat message", data);
     }
   });
+  socket.on("typing", (userName) => {
+    socket.broadcast.emit("typing", userName);
+  });
+
   socket.on("disconnect", () => {
     io.emit("disconnect message", socket.id + " has left the chat");
   });
