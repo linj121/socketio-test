@@ -28,6 +28,7 @@ io.on("connection", async (socket) => {
   const socketId = socket.id;
 
   socket.on("new user", (user) => {
+    // console.log(`ON new user: ${JSON.stringify(user)}`);
     if (user === "") {
       console.error("User name is empty");
       socket.emit("new user", { error: "name empty", name: user });
@@ -45,16 +46,27 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("chat message", (data) => {
-    const { name, content } = data;
+    console.log(`ON chat message: ${JSON.stringify(data)}`);
+    const { mode, name, content, targetSocketId } = data;
     if (content.startsWith("/reset")) {
       console.log("State reset");
       db.length = 0;
-    } else {
+    } else if (mode === "private") {
+      const targetUser = db.find((conn) => conn.socketId === targetSocketId);
+      if (!targetUser) {
+        console.error(`Target user not found: ${targetSocketId}`);
+        return;
+      }
+      io.to(targetSocketId).emit("chat message", { name, content, mode: "private", targetSocketId: socketId });
+    } else if (mode === "public") {
       socket.broadcast.emit("chat message", data);
+    } else {
+      console.error(`Unknown mode: ${mode}`);
     }
   });
 
   socket.on("typing", (userName) => {
+    // console.log(`ON typing: ${userName}`);
     socket.broadcast.emit("typing", userName);
   });
 
@@ -65,10 +77,7 @@ io.on("connection", async (socket) => {
       console.error("User that disconnected is not in our db");
       return;
     }
-    io.emit(
-      "disconnect message",
-      getUserName(socketId, db) + " has left the chat"
-    );
+    io.emit("disconnect message", userName + " has left the chat");
     kickUser(socketId, db);
     io.emit("online users", db);
   });
