@@ -7,9 +7,19 @@
   </head>
   <body>
     <ul id="messages"></ul>
-    <ul id="online-users"></ul>
+    <div id="online-users-container">
+      <div id="heading">
+        <h3>Online Users</h3>
+      </div>
+      <ul id="online-users-list"></ul>
+    </div>
     <div id="typing"></div>
-    <form id="form" action=""><input id="input" autocomplete="off" /><button>Send</button></form>
+    <form id="form" action="">
+      <button id="exit-private-chat">Back</button>
+      <label for="input" id="public">Public</label>
+      <input id="input" autocomplete="off" />
+      <button id="send-message">Send</button>
+    </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src="index.js"></script>
   </body>

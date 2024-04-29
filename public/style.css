@@ -1,8 +1,7 @@
 body {
   margin: 0;
   padding-bottom: 3rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 #form {
@@ -27,13 +26,45 @@ body {
 #input:focus {
   outline: none;
 }
-#form > button {
+form > button#send-message {
   background: #333;
   border: none;
   padding: 0 1rem;
   margin: 0.25rem;
+  font: inherit;
   border-radius: 3px;
   outline: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+form > button#exit-private-chat {
+  background: #b90000;
+  margin: 0.25rem;
+  border: none;
+  padding: 0 1rem;
+  line-height: 2rem;
+  border-radius: 3px;
+  font: inherit;
+  color: #fff;
+  cursor: pointer;
+}
+
+form > label#public {
+  background: #0077ff;
+  margin: 0.25rem;
+  padding: 0 1rem;
+  line-height: 2rem;
+  border-radius: 3px;
+  color: #fff;
+}
+
+form > label#private {
+  background: #b400b4;
+  margin: 0.25rem;
+  padding: 0 1rem;
+  line-height: 2rem;
+  border-radius: 3px;
   color: #fff;
 }
 
@@ -63,14 +94,53 @@ body {
   background: #efefef;
 }
 
-#online-users {
+#online-users-container {
   position: absolute;
   top: 0;
   right: 0;
   width: 200px;
   background-color: #333;
-  color: wheat;
-  list-style-type: none;
+  color: #fff;
   margin: 0;
-  padding: 0;
+}
+
+#online-users-container > div#heading {
+  height: 36px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #fff;
+}
+
+#online-users-container > div#heading > h3 {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bolder;
+  color: greenyellow;
+  margin: 0;
+}
+
+#online-users-container > ul {
+  margin: 0;
+  padding: 0 10px;
+  list-style-type: none;
+}
+
+#online-users-list > li {
+  display: flex;
+  height: 37px;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+#online-users-list > li > button {
+  background: #b400b4;
+  border: none;
+  font: inherit;
+  border-radius: 3px;
+  outline: none;
+  color: #fff;
+  cursor: pointer;
 }

@@ -61,7 +61,7 @@ socket.on("new user", (data) => {
 socket.on("online users", (data) => {
   console.log(`On online users: ${JSON.stringify(data)}`);
   onlineUsers = data;
-  const onlineUserElement = document.getElementById("online-users");
+  const onlineUserElement = document.getElementById("online-users-list");
   onlineUserElement.innerHTML = "";
   onlineUsers.forEach((user) => {
     const { socketId, userName } = user;
