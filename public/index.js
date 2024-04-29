@@ -1,6 +1,7 @@
 const socket = io();
 const form = document.getElementById("form");
 const input = document.getElementById("input");
+const cancelPrivateButton = document.getElementById("exit-private-chat");
 
 let onlineUsers = [];
 
@@ -24,8 +25,32 @@ function setPrivateMessageTarget(socketId) {
   messageMode = "private";
   privateMessageTarget.targetSocketId = socketId;
   privateMessageTarget.targetUserName = onlineUsers.find((user) => user.socketId === socketId).userName;
+
+  cancelPrivateButton.style.display = "inline";
+  const statusLabel = document.getElementsByClassName("chat-mode-status")[0];
+  console.log(statusLabel);
+  statusLabel.id = "private";
+  statusLabel.textContent = `${privateMessageTarget.targetUserName}`;
+
   console.log(`Set private message target: ${JSON.stringify(privateMessageTarget)}`);
 }
+
+function exitPriveChat(e) {
+  e.preventDefault();
+  console.log(e);
+  messageMode = "public";
+  privateMessageTarget.targetSocketId = null;
+  privateMessageTarget.targetUserName = null;
+
+  cancelPrivateButton.style.display = "none";
+  const statusLabel = document.getElementsByClassName("chat-mode-status")[0];
+  console.log(statusLabel);
+  statusLabel.id = "public";
+  statusLabel.textContent = "Public";
+
+  console.log("Exit private chat");
+}
+cancelPrivateButton.addEventListener("click", exitPriveChat);
 
 let currentUserName = prompt("Enter your nick name");
 const promptWhileEmpty = () => {
@@ -66,7 +91,9 @@ socket.on("online users", (data) => {
   onlineUsers.forEach((user) => {
     const { socketId, userName } = user;
     const item = document.createElement("li");
-    item.innerHTML = `<span>${userName}</span><button onclick="setPrivateMessageTarget('${socketId}')">Private Chat</button>`;
+    item.innerHTML =
+      `<span>${userName}</span>` +
+      (userName !== currentUserName ? `<button onclick="setPrivateMessageTarget('${socketId}')">Private Chat</button>` : "<- You");
     onlineUserElement.appendChild(item);
   });
   console.log(`Online users: ${JSON.stringify(onlineUsers)}`);
@@ -124,7 +151,7 @@ socket.on("chat message", function (data) {
     console.error("Name is empty!");
     return;
   }
-  appendMessage(`${mode === "private" ? "PM From " : ""}${name}: ${content}`);
+  appendMessage(`${mode === "private" ? "From " : ""}${name}: ${content}`);
 });
 
 socket.on("disconnect message", function (msg) {

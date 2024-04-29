@@ -48,6 +48,7 @@ form > button#exit-private-chat {
   font: inherit;
   color: #fff;
   cursor: pointer;
+  display: none;
 }
 
 form > label#public {
