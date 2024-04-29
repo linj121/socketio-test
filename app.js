@@ -57,7 +57,7 @@ io.on("connection", async (socket) => {
         console.error(`Target user not found: ${targetSocketId}`);
         return;
       }
-      io.to(targetSocketId).emit("chat message", { name, content, mode: "private", targetSocketId: socketId });
+      io.to(targetSocketId).emit("chat message", { name, content, mode: "private", targetSocketId: targetSocketId });
     } else if (mode === "public") {
       socket.broadcast.emit("chat message", data);
     } else {
