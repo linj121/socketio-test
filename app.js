@@ -24,6 +24,7 @@ function getUserName(socketId, db) {
 app.use(express.static("public"));
 
 io.on("connection", async (socket) => {
+  console.log(`User ${socket.id} connected`);
   const socketId = socket.id;
 
   socket.on("new user", (user) => {
@@ -38,7 +39,7 @@ io.on("connection", async (socket) => {
       return;
     }
     db.push({ socketId: socketId, userName: user });
-    console.log(`Current users: ${db}`);
+    console.log(`Current users: ${JSON.stringify(db)}`);
     io.emit("new user", { error: "", name: user });
     io.emit("online users", db);
   });
@@ -58,6 +59,12 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("disconnect", () => {
+    console.log(`user ${socketId} disconnected`);
+    const userName = getUserName(socketId, db);
+    if (!userName) {
+      console.error("User that disconnected is not in our db");
+      return;
+    }
     io.emit(
       "disconnect message",
       getUserName(socketId, db) + " has left the chat"

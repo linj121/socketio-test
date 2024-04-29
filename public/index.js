@@ -5,6 +5,10 @@ const input = document.getElementById("input");
 
 let onlineUsers = [];
 
+function clearAllMessages() {
+  messages.innerHTML = "";
+}
+
 function appendMessage(msg) {
   const item = document.createElement("li");
   item.textContent = msg;
@@ -42,8 +46,8 @@ socket.on("new user", (data) => {
   }
   appendMessage(
     `${
-      name === currentUserName ? "You" : name
-    } have joined the chat! Let's have fun!`
+      name === currentUserName ? "You have" : name + " has"
+    } joined the chat! Let's have fun!`
   );
 });
 
@@ -68,12 +72,16 @@ form.addEventListener("submit", function (e) {
   e.preventDefault();
   const messageContent = input.value;
   if (messageContent) {
-    socket.emit("chat message", {
-      name: currentUserName,
-      content: messageContent,
-    });
+    if (messageContent.startsWith("/clear")) {
+      clearAllMessages();
+    } else {
+      socket.emit("chat message", {
+        name: currentUserName,
+        content: messageContent,
+      });
+      appendMessage("You: " + messageContent);
+    }
     input.value = "";
-    appendMessage("You: " + messageContent);
   }
 });
 
@@ -83,7 +91,7 @@ socket.on("typing", function (userName) {
   typing.textContent = `${userName} is typing...`;
   setTimeout(() => {
     typing.textContent = "";
-    typing = null;
+    // typing = null;
   }, 1000);
 });
 
@@ -95,5 +103,6 @@ socket.on("chat message", function (data) {
 });
 
 socket.on("disconnect message", function (msg) {
+  console.log(`On disconnect message: ${msg}`);
   appendMessage(msg);
 });
