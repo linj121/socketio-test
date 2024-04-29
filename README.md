@@ -18,19 +18,19 @@ Start the server: `npm start`
 4. View chat messages sent after you connect to the room.
 5. Show which user is typing
 
-![Home Page](image.png)
+![Home Page](docs/image.png)
 
 - Private Chat
 
 Click `Private Chat` to select the user you want to DM. Only the target user will see your private message. Click `Back` to return to Public channel.
 
-![Private Chat](image-1.png)
+![Private Chat](docs/image-1.png)
 
 - Broadcasting
 
 When in Public channel, click `Send` will broadcast your message with everyone in the room, except yourself.
 
-![Broadcast](image-2.png)
+![Broadcast](docs/image-2.png)
 
 ## TODO
 
