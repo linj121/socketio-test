@@ -11,12 +11,13 @@ importers:
       express:
         specifier: '4'
         version: 4.19.2
-      nodemon:
-        specifier: ^3.1.0
-        version: 3.1.0
       socket.io:
         specifier: ^4.7.5
         version: 4.7.5
+    devDependencies:
+      nodemon:
+        specifier: ^3.1.0
+        version: 3.1.0
 
 packages:
 
