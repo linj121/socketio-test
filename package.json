@@ -2,14 +2,14 @@
   "name": "socketio101",
   "version": "0.0.1",
   "description": "my 1st socket.io app",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "joshlin",
   "license": "ISC",
-  "packageManager": "pnpm@9.0.4+sha256.caa915eaae9d9aefccf50ee8aeda25a2f8684d8f9d5c6e367eaf176d97c1f89e",
   "dependencies": {
     "express": "4",
     "socket.io": "^4.7.5"

@@ -8,6 +8,11 @@ Dependency: `pnpm i`
 
 Start the server: `npm start`
 
+Deploy(Google App Engine): `gcloud app deploy`, notice Google App Engine only accepts port `8080`
+and `8081` as the exposed ports for NodeJS.
+
+Try it out here: https://websocket-dot-nodejs-418911.uk.r.appspot.com
+
 ## Overview
 
 - Default Page

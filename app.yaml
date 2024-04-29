@@ -1,0 +1,2 @@
+service: websocket
+runtime: nodejs20
